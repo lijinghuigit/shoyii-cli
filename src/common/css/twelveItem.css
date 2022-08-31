@@ -1,0 +1,47 @@
+.introduce{
+	padding: 0rpx 30rpx;
+	border-bottom: 1px solid #F0EFEF;
+	color: #000000;
+	font-size: 28rpx;
+	background-color: #FFFFFF;
+	margin-top: 20rpx;
+}
+.introduce .content{
+	line-height: 50rpx;
+}
+.introduce .text1{
+	margin-bottom: 28rpx;
+}
+.introduce .text1 uni-text:nth-child(1){
+	color: #8F8F8F;
+}
+.example-body {
+	flex-direction: column;
+	padding: 15px;
+	background-color: #ffffff;
+}
+.example-body {
+	/* #ifndef APP-PLUS-NVUE */
+	display: flex;
+	/* #endif */
+	flex-direction: row;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	padding: 20rpx;
+}
+.example-body {
+	/* #ifndef APP-NVUE */
+	display: flex;
+	/* #endif */
+	flex-direction: row;
+	flex-wrap: wrap;
+	padding: 0;
+	font-size: 14px;
+	background-color: #ffffff;
+	color: #242424;
+	font-family: PingFang-SC-Bold;
+	font-weight: bold;
+	color: 28rpx;
+	padding: 20rpx 0;
+	border-bottom: 1px solid #F0F0F0;
+}

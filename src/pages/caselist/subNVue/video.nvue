@@ -1,0 +1,43 @@
+<template>
+	<view>
+		<view class="video">
+			<video
+			:src="url" :show-mute-btn="true" :controls='true' poster=''
+			:autoplay='true' :show-fullscreen-btn='false'
+			object-fit='fill'
+			muted="true" :danmu-btn="true" :enable-danmu="true" :page-gesture="true">
+			</video>
+		</view>
+		<!-- <view @click="close" class="button">
+			<text>关闭</text>
+		</view> -->
+	</view>
+</template>
+
+<script>
+	export default {
+		data(){
+			return{
+				url:'',
+			}
+		},
+		methods:{
+			// close(){
+			// 	console.log('close')
+			// 	uni.$emit('video-popupClose')
+			// },
+		},
+		onLoad() {
+			uni.$on('video-popup', (data) => {  
+			    // console.log(data)
+				this.url=data.url
+			})  
+		}
+	}
+</script>
+
+<style scoped>
+	.video{
+		padding: 30rpx 0;
+	}
+</style>

@@ -1,0 +1,451 @@
+<template>
+	<view class="news" :class="themeType=='dark'?'sy_main':''">
+		<!-- #ifdef MP-WEIXIN||H5 -->
+		<uni-nav-bar leftIcon='back' title="新闻列表" fixed @clickLeft='back' :dark="false" statusBar/>
+		<u-tabs-swiper ref="uTabs" :list="list" :current="current" @change="tabsChange" active-color='#86B0D4'
+			:is-scroll="false" swiperWidth="750"></u-tabs-swiper>
+		<swiper class="swiper" :current="swiperCurrent" @transition="transition" @animationfinish="animationfinish">
+			<swiper-item class="swiper-item" v-for="(items,index1) in newsData" :key='index1'>
+				<scroll-view scroll-y class="scroll-Y" @scrolltolower="loadMore(index1)" show-scrollbar	>
+					<news v-for="(item,index) in items.data" :key="item.newsId" :data='item'></news>
+					<view class="loading-more" v-if="items.isLoading || items.page < items.total">
+						<text class="loading-more-text">{{items.loadingText}}</text>
+					</view>
+				</scroll-view>
+			</swiper-item>
+		</swiper>
+		<!-- #endif -->
+		<!-- #ifdef APP-NVUE -->
+		<scroll-view :scroll-x="true" class="scroolX" :show-scrollbar="false" 
+		:class="themeType=='dark'?'sy_block':''">
+			<view style="flex: 1;" v-for="(tab,index) in list" :key="index" @click="ontabtap(index)">
+			    <text :class="[swiperCurrent==index?'activetitle':'title',themeType=='dark'&&swiperCurrent!=index?'sy_title_primary':'']" class="common_text"
+				>{{tab.name}}</text>
+			</view>
+		</scroll-view>
+		<swiper class="swiper" :current="swiperCurrent" @change="ontabchange">
+			<swiper-item class="swiper-item" v-for="(item,index) in newsData" :key='index'>
+				<list class="list" scroll-y enableBackToTop="true" loadmoreoffset="15" :show-scrollbar='false' 
+				@loadmore="loadMore(index)">
+					<refresh style="refresh" @refresh="onrefresh" @pullingdown="onpullingdown" :display="tab.refreshing ? 'show' : 'hide'">
+						<view class="refresh-view">
+							<image :src="refreshIcon" class="loading-refresh" :style="{width: (tab.refreshing || pulling) ? 0: '30px'}" :class="{'refresh-icon-active': tab.refreshFlag}"></image>
+							<loading-indicator class='loadingIcon' animating="true" v-if="tab.refreshing"></loading-indicator>
+							<text class="loading-text">{{tab.refreshText}}</text>
+						</view>
+					</refresh>
+					<cell v-for="(item1,index1) in item.data" :key='item1.newsId'>
+						<view class="n_items" :class="themeType=='dark'?'sy_block':''" :hover-class="themeType=='dark'?'sy_hover_bg':'bgcolor'" @click="enterNews(item1)">
+							<image class="n_image" :class="themeType=='dark'?'sy_border':''"
+							:src="item1.pictureUrl?item1.pictureUrl:'/static/image/shoyiilogo.png'" mode="aspectFit"></image>
+							<view class="n_right">
+								<text class="n_title " :class="themeType=='dark'?'sy_title_primary':''">{{item1.title}}</text>
+								<text class="n_content" :class="themeType=='dark'?'sy_title_content':''">{{item1.synopsis}}</text>
+							</view>
+						</view>
+					</cell>
+					<cell class="loading-more" v-if="item.isLoading || item.page < item.total">
+						<!-- {{item.isLoading}}--{{item.page}}--{{item.total}}-- -->
+						<text class="loading-more-text">{{item.loadingText}}</text>
+					</cell>
+				</list>
+			</swiper-item>
+		</swiper>
+		<!-- <view class="ad-view">
+		    <ad adpid="1542457411"></ad>
+		</view> -->
+		<!-- #endif -->
+		<u-no-network></u-no-network> 
+	</view>
+</template>
+<script>
+	import {getNewsList} from '@/utill/api/news/news.js'
+	import news from './components/news.nvue'
+	import {mapGetters} from 'vuex'
+	import thememixin from '@/mixin/theme.js'
+	export default {
+		mixins:[thememixin],
+		components:{
+			news
+		},
+		data() {
+			return {
+				list: [{
+					name: '全部'
+				}, {
+					name: '树蚁案例'
+				}, {
+					name: '树蚁说明'
+				}],
+				swiperCurrent:0,
+				current:0,
+				newsData:[],
+				refreshIcon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAB5QTFRFcHBw3Nzct7e39vb2ycnJioqK7e3tpqam29vb////D8oK7wAAAAp0Uk5T////////////ALLMLM8AAABxSURBVHja7JVBDoAgDASrjqj//7CJBi90iyYeOHTPMwmFZrHjYyyFYYUy1bwUZqtJIYVxhf1a6u0R7iUvWsCcrEtwJHp8MwMdvh2amHduiZD3rpWId9+BgPd7Cc2LIkPyqvlQvKxKBJ//Qwq/CacAAwDUv0a0YuKhzgAAAABJRU5ErkJggg==",
+				loadmoreText:'',
+				tab:{},//中间键
+				pulling:'',
+			}
+		},
+		methods:{
+			refreshData(tab){
+				console.log('complete')
+				this.newsData[this.current].page=1
+				this.getNewsList(this.current,0)
+				setTimeout(() => {
+				   this.pulling = true;//下拉完成
+				   this.tab.refreshing = false;
+				   this.tab.refreshFlag = false;//下拉完成后的自定义图标，加延时器做延缓
+				   this.tab.refreshText = "已刷新";
+				   setTimeout(() => { // TODO fix ios和Android 动画时间相反问题
+					   this.pulling = false;
+				   }, 500);
+				}, 2000);
+			},
+			// 下拉完成
+			onrefresh(e){
+				this.tab = this.newsData[this.current];
+				console.log(this.tab.refreshFlag)
+				if (!this.tab.refreshFlag) {
+				    return;
+				}
+				this.tab.refreshing = true;
+				this.tab.refreshText = "正在刷新...";
+				this.refreshData(this.tab);
+			},
+			// 被下拉时触发
+			onpullingdown(e){
+				this.tab = this.newsData[this.current];
+				if (this.tab.refreshing || this.pulling) {
+				    return;
+				}
+				if (Math.abs(e.pullingDistance) > Math.abs(e.viewHeight)) {
+				    this.tab.refreshFlag = true;
+				    this.tab.refreshText = "释放立即刷新";
+				} else {
+				    this.tab.refreshFlag = false;
+				    this.tab.refreshText = "下拉可以刷新";
+				}
+			},
+			loadMore(e){
+				switch (e){
+					case 0://全部
+						if(this.newsData[0].page>this.newsData[0].total){//加载的页数大于总页数时，停止加载数据
+							this.newsData[0].isLoading=true
+							this.newsData[0].loadingText='没有更多数据'
+							return 
+						}
+					break;
+					case 1://案例
+						if(this.newsData[1].page>this.newsData[1].total){//加载的页数大于总页数时，停止加载数据
+							this.newsData[1].isLoading=true
+							this.newsData[1].loadingText='没有更多数据'
+							return 
+						}
+					break;
+					case 2://说明
+						if(this.newsData[2].page>this.newsData[2].total){//加载的页数大于总页数时，停止加载数据
+							this.newsData[2].isLoading=true
+							this.newsData[2].loadingText='没有更多数据'
+							return 
+						}
+					break;
+					default:
+					break;
+				}
+				this.getNewsList(e,1)
+			},
+			ontabtap(index){
+				console.log(index)
+				this.swiperCurrent=index
+				console.log(this.swiperCurrent)
+			},
+			ontabchange(e){
+				let index = e.target.current || e.detail.current;
+				console.log(index)
+				this.swiperCurrent=index
+				if(this.newsData[this.swiperCurrent].data.length==0){
+					this.getNewsList(this.swiperCurrent,0)
+				}
+			},
+			back(){
+				// #ifdef H5
+				uni.showToast({
+					title:'无效',
+					icon:'none'
+				})
+				// #endif
+				// #ifndef H5
+				uni.navigateBack({
+					delta:1
+				})
+				// #endif
+			},
+			tabsChange(index){
+				this.swiperCurrent = index;
+				// this.caseList[this.tabIndex].refreshing=false//避免下拉刷新卡顿
+			},
+			// swiper-item左右移动，通知tabs的滑块跟随移动
+			transition(e) {
+				let dx = e.detail.dx;
+				this.$refs.uTabs.setDx(dx);
+				console.log(this.swiperCurrent)
+			},
+			animationfinish(e) {
+				let current = e.detail.current;
+				this.$refs.uTabs.setFinishCurrent(current);
+				this.swiperCurrent = current;
+				console.log(this.swiperCurrent)
+				this.current = current;
+				if(this.newsData[this.swiperCurrent].data.length==0){
+					this.getNewsList(this.swiperCurrent,0)
+				}
+			},
+			getNewsList(current,mark){//当前菜单和是否contact数据
+				var timer = setTimeout(function() {
+					uni.showLoading({
+					  title: '数据加载中...',
+					})
+				}, 2000)
+				var index='';
+				if(current==0){
+					index=''
+				}else if(current==1){
+					index='4'
+				}else if(current==2){
+					index='1'
+				}
+				// console.log(this.newsData)
+				getNewsList({
+					categoryId:index,
+					page:this.newsData[current].page,
+					size:8
+				}).then(res=>{
+					// console.log(res)
+					clearTimeout(timer)
+					uni.hideLoading()
+					// console.log(res.data.object.list)
+					if(res.data.code==0){
+						this.newsData[current].total=res.data.object.pages//总页数
+						this.newsData[current].page++
+						if(res.data.object.list.length==0){
+							this.newsData[current].isLoading=true
+							this.newsData[current].loadingText='没有更多数据'
+						}
+						if(mark==1){//初始化加载数据
+							this.newsData[current].data=this.newsData[current].data.concat(res.data.object.list) 
+						}else {
+							this.newsData[current].data=res.data.object.list
+						}
+					}else{
+						uni.showToast({
+							title:res.data.msg,
+							icon:'none'
+						})
+					}
+				}).catch(err=>{
+					clearTimeout(timer)
+					uni.hideLoading()
+					console.log(err)
+				})
+			},
+			enterNews(data){
+				console.log(data.caseLink)
+				if(data.caseLink){
+					// #ifdef APP-PLUS||MP-WEIXIN
+					uni.navigateTo({
+						url:'/pages/ThreejsShow/ThreejsShow?baseUrl='+encodeURIComponent(data.caseLink),
+						animationType:'pop-in'
+					})
+					// #endif
+					// #ifdef H5
+					location.href=data.caseLink
+					// #endif
+				}else{
+					uni.navigateTo({
+						url:'/pages/news/newsDetail?id='+data.newsId,
+						animationType:'pop-in'
+					})
+				}
+			}
+		},
+		computed:{
+			...mapGetters({
+				themeType:'theme/themeType'
+			}),
+		},
+		onLoad(options) {
+			this.list.forEach(item=>{
+				this.newsData.push({
+					data:[],
+					refreshText: "",
+					isLoading: false,
+					loadingText: '加载更多...',
+					page:1,//页码
+					total:1//总页数默认为1，后端没有数据返回的是0
+				})
+			})
+			if(!options.id){
+				this.swiperCurrent=0
+				this.getNewsList(this.swiperCurrent,0)
+			}else{
+				this.current=options.id
+				this.swiperCurrent=options.id
+			}
+			// 获取新闻数据
+			// #ifndef APP-PLUS
+			this.getNewsList(this.swiperCurrent,0)
+			// #endif
+			
+		},
+		onReady() {
+			// #ifdef APP-PLUS
+			this.amendNavigator()
+			// #endif
+		}
+	}
+</script>
+
+<style lang="scss">
+	.sy_main{
+		background-color: #1B1C1E;
+	}
+	.sy_block{
+		background-color: #3A3A3A;
+		color:#eee;
+	}
+	.sy_title_primary{
+		color: #eee;
+	}
+	.sy_title_content{
+		color: #ddd;
+	}
+	.sy_border{
+		border-width: 1px;
+		border-style:solid;
+		border-color: $dark-border-color;
+	}
+	.sy_hover_bg{
+		background-color: $dark-border-color;
+	}
+	.news{ 
+		/* #ifdef APP-NVUE */
+		flex: 1;
+		background-color: #F8F8F8;
+		/* #endif */
+		/* #ifndef APP-NVUE */
+		display: flex;
+		flex-direction: column;
+		height: 100vh;
+		/* #endif */
+	}
+	.swiper{
+		flex: 1;padding: 0 30rpx;
+	}
+	.scroll-Y{
+		height: 100%;width: 100%;
+	}
+	 /* #ifdef APP-NVUE */
+	.scroolX{
+		width: 750rpx;
+	 	padding:20rpx 30rpx;
+	 	display: flex;flex-direction: row;
+		/* justify-content: space-between; */
+		background-color: #FFFFFF;
+	}
+	.title{
+		font-weight: normal;
+		font-family:PingFang-SC-Medium; 
+		color: rgb(48, 49, 51);
+	}
+	.activetitle{
+	 	 color:rgb(134, 176, 212) ;
+	 	 font-weight: bold;
+	}
+	.common_text{
+		font-size: 30rpx;
+		font-family:PingFang-SC-Medium; 
+		text-align: center;
+	}
+	.swiper-item{
+		 flex: 1;
+		 display: flex;
+	}
+	.list{
+		padding: 0 30rpx;
+	}
+	.n_items{
+		 flex-direction: row;
+		 margin-top: 30rpx;
+		 background-color: #FFFFFF;
+		 padding: 20rpx;
+	}
+	.n_image{
+		 width: 232rpx;
+		 height: 168rpx;
+		 margin-right: 20rpx;
+		 border-radius: 20rpx;
+	}
+	.n_right{
+		 flex: 1;
+	}
+	.n_title{
+		 font-size: 30rpx;
+		 font-weight: 600;
+		 margin-bottom: 12.5rpx;
+		 font-family: PingFang-SC-Bold;
+		 lines:1;
+		 text-overflow: ellipsis;
+	}
+	.n_content{
+		 font-size: 24rpx;
+		 font-family: PingFang-SC-Bold;
+		 lines:4;
+		 text-overflow: ellipsis;
+	}
+	.bgcolor{
+		 background-color: #F8F8F8;
+	}
+	.refresh {
+	    width: 750rpx;
+	    height: 64px;
+	    justify-content: center;
+	}
+	.refresh-view {
+		width: 750rpx;
+	    flex-direction: row;
+	    flex-wrap: nowrap;
+	    align-items: center;
+	    justify-content: center;
+	}
+	.loading-refresh{
+		width: 30px;height: 30px;
+		transition-duration: .5s;
+		transition-property: transform;
+		transform: rotate(0deg);
+		transform-origin: 15px 15px;
+	}
+	.refresh-icon-active {
+		transform: rotate(180deg);
+	}
+	.loadingIcon{
+		width: 20px;height: 20px;
+		margin-right: 5px;color: #999999;
+	}
+	.loading-text {
+	    margin-left: 2px;
+	    font-size: 26rpx;
+	    color: #999999;
+	}
+	 /* #endif */
+	 .loading-more {
+	     align-items: center;
+	     justify-content: center;
+	     padding-top: 10px;
+	     padding-bottom: 10px;
+	     text-align: center;
+	 }
+	 .loading-more-text {
+	     font-size: 28rpx;
+	     color: #999;
+	 }
+</style>

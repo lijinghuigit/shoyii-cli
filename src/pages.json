@@ -1,0 +1,1188 @@
+{
+	"pages": [
+		{
+			"path": "pages/Tabbar/index",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"navigationBarBackgroundColor":"#FFFFFF",
+				"navigationBarTextStyle":"black",
+				"navigationStyle":"custom",
+				"backgroundColor":"#F7F7F7",
+				"enablePullDownRefresh":true,
+				"bounce":"",
+				"onReachBottomDistance":100,
+				"h5":{
+					"titleNView":{
+						"backgroundColor":"#F7F7F7"
+					},
+					"pullToRefresh":{
+						"color":"#85AFD3",
+						"offset":"10%"
+					}
+				},
+				"app-plus":{
+					"pullToRefresh":{
+						"support":true,
+						"color":"#85AFD3",
+						"height":"10%",
+						"contentdown": {
+							"caption": "下拉可刷新自定义文本"
+						}
+					}
+				},
+				"mp-weixin": {
+				  //   "usingComponents": {
+						// // 引入uniapp广告插件
+				  //       "uni-ad": "plugin://uni-ad/ad"
+				  //   }
+				}
+			}
+		},
+		{
+			"path": "pages/Tabbar/surgicalData",
+			"style":{
+				"navigationBarTitleText": "方法库",
+				"navigationBarBackgroundColor":"#FFFFFF",
+				"navigationBarTextStyle":"black",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+		    "path" : "pages/Tabbar/model",
+		    "style" : {
+				"navigationBarTitleText": "模型库",
+				"navigationBarBackgroundColor":"#FFFFFF",
+				"navigationBarTextStyle":"black",
+				"navigationStyle":"custom",
+				"enablePullDownRefresh":true
+			}
+		}
+		,{
+			"path" : "pages/Tabbar/mine",
+			"style" : {
+				"navigationBarTitleText": "个人中心",
+				"navigationBarBackgroundColor":"#FFFFFF",
+				"navigationBarTextStyle":"black",
+				"navigationStyle":"custom"
+			}
+		},
+	    {
+            "path" : "pages/Tabbar/case",
+            "style" : {
+				"navigationBarTitleText": "病例",
+				"navigationBarBackgroundColor":"#FFFFFF",
+				"navigationBarTextStyle":"black",
+				"navigationStyle":"custom"
+			}
+        },
+		{
+			"path": "pages/contactUs/contactUs",
+			"style":{
+				"navigationBarTitleText": "联系我们"
+			}
+		}
+        ,{
+            "path" : "pages/login/tellogin",
+            "style" : {
+				"navigationStyle":"custom"
+			}
+        },
+		{
+		    "path" : "pages/login/telloginitem",
+		    "style" : {
+				"navigationStyle":"custom"
+			}
+		},
+		{
+		    "path" : "pages/login/bindTel",
+		    "style" : {
+				"navigationBarTitleText": "手机号绑定",
+				"navigationBarBackgroundColor":"#FFFFFF",
+				"navigationBarTextStyle":"black"
+				// "navigationStyle":"custom"
+			}
+		},
+		{
+            "path" : "pages/login/pwdLogin",
+            "style":{
+            	"navigationBarTitleText": ""
+            }
+        },
+		{
+		    "path" : "pages/login/accountLogin",
+		    "style" : {
+				"navigationBarTitleText": "账号登录",
+				"navigationBarBackgroundColor":"#F8F8F8",
+				"navigationBarTextStyle":"black"
+			}
+		}
+        ,{
+            "path" : "pages/experts/experts",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "专家团队",
+                "enablePullDownRefresh": false
+            }
+        },{
+            "path" : "pages/experts/detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "专家详情",
+                "enablePullDownRefresh": false
+            }
+        }
+    ],
+	"subPackages": [
+		// 病例
+		{
+			"root":"pages/caselist",
+			"pages":[
+				{
+					"path":"caselistdetail",
+					"style":{
+						"navigationBarTitleText": "病例",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black",
+						"navigationStyle":"custom",
+						"bounce":"none",
+						"app-plus":{
+							"bounce":"none",
+							"background":"#f8f8f8",
+							"subNVues":[
+								{
+									"id":"video",
+									"path": "subNVue/video",
+									"type": "popup", 
+									"style": {  
+										"position": "absolute",  
+										"mask": "rgba(0,0,0,0.5)",  
+										"margin":"auto",
+										"width": "700rpx",
+										"height": "500rpx"  
+									}  
+								}
+							]
+						}
+					}
+				},
+				{
+					"path":"successCaseDetail",
+					"style":{
+						"navigationBarTitleText": "成功案例",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black"
+						// "navigationStyle":"custom",
+						// "bounce":"none",
+						// "app-plus":{
+						// 	"bounce":"none"
+						// }
+					}
+				},
+				{
+					"path":"selectTeam",
+					"style":{
+						"navigationBarTitleText": "选择团队",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black",
+						"bounce":"none",
+						"app-plus":{
+							"bounce":"none"
+						}
+					}
+				},
+				{
+					"path":"selectDesign",
+					"style":{
+						"navigationBarTitleText": "树蚁辅助",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black",
+						"bounce":"none",
+						"titleNView":{
+							"backgroundColor":"#F7F7F7"
+						},
+						"app-plus":{
+							"bounce":"none"
+						}
+					}
+				},
+				{
+					"path":"DesignTeaminfor",
+					"style":{
+						"navigationBarTitleText": "详情",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black",
+						"bounce":"none",
+						"titleNView":{
+							"backgroundColor":"#F7F7F7"
+						},
+						"app-plus":{
+							"bounce":"none"
+						}
+					}
+				},
+				{
+					"path":"Designladerinfor",
+					"style":{
+						"navigationBarTitleText": "详情",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black",
+						"bounce":"none",
+						"titleNView":{
+							"backgroundColor":"#F7F7F7"
+						},
+						"app-plus":{
+							"bounce":"none"
+						}
+					}
+				},
+				{
+					"path":"checkprice",
+					"style":{
+						"navigationBarTitleText": "价格详情",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black",
+						"bounce":"none",
+						"titleNView":{
+							"backgroundColor":"#F7F7F7"
+						},
+						"app-plus":{
+							"bounce":"none"
+						}
+					}
+				},
+				{
+					"path":"logistics",
+					"style":{
+						"navigationBarTitleText": "物流信息",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black",
+						"bounce":"none",
+						"titleNView":{
+							"backgroundColor":"#F7F7F7"
+						},
+						"app-plus":{
+							"bounce":"none"
+						}
+					}
+				},
+				{
+					"path":"classifycase",
+					"style":{
+						"navigationBarTitleText": "经典案例",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black",
+						"bounce":"none",
+						"navigationStyle":"custom",
+						"titleNView":{
+							"backgroundColor":"#F7F7F7"
+						}
+					}
+				}
+			]
+		},
+		// 模型库
+		{
+			"root":"pages/model",
+			"pages":[
+				{
+					"path":"MyDetail",
+					"style":{
+						"navigationBarTitleText": "模型库详情",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black",
+						"navigationStyle":"custom"
+						// "titleNView":{
+						// 	"buttons":[
+						// 		{ 
+						// 		"type":"menu",	
+						// 		"float":"right"
+						// 		}
+						// 	]
+						// }
+					}
+				},
+				{
+					"path":"myClassify",
+					"style":{
+						"navigationBarTitleText": "分类详情",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black",
+						"navigationStyle":"custom"
+					}
+				},
+				{
+					"path":"setting",
+					"style":{
+						"navigationBarTitleText": "设置",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black"
+					}
+				}
+			]
+		},
+		// 方法库
+		{
+			"root":"pages/surgicalData",
+			"pages":[
+				{
+					"path":"Mysurgical",
+					"style":{
+						"navigationBarTitleText": "我的方法库",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black",
+						"navigationStyle":"custom",
+						// "enablePullDownRefresh":true,
+						"pullToRefresh":{
+							"color":"#85AFD3",
+							"offset":"10%"
+						}
+					}
+				},
+				{
+					"path":"surgicalDetail",
+					"style":{
+						"navigationBarTitleText": "方法库详情",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black",
+						"navigationStyle":"custom",
+						"app-plus": {
+							"subNVues":[
+								{
+									"id":"video",
+									"path": "../../pages/caselist/subNVue/video",
+									"type": "popup", 
+									"style": {  
+										"position": "absolute",  
+										"mask": "rgba(0,0,0,0.5)",  
+										"margin":"auto",
+										"width": "700rpx",
+										"height": "500rpx"  
+									}  
+								}
+							]
+						}
+					}
+				},
+				{
+					"path":"shoyiiDesign",
+					"style":{
+						"navigationBarTitleText": "树蚁设计",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black"
+					}
+				}
+			]
+		},
+		// 公开模型库
+		{
+			"root":"pages/publicModel",
+			"pages":[
+				{
+				    "path" : "publicModel",
+				    "style" : {
+						"navigationStyle":"custom"
+					}
+				},
+				{
+					"path" : "modelDetail",
+					"style" : {
+						"navigationBarTitleText": "模型库详情",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black",
+						"navigationStyle":"custom"
+					}
+				},
+				{
+				    "path" : "classifyModel",
+				    "style" : {
+						"navigationBarTitleText": "分类名称",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black",
+						"navigationStyle":"custom",
+						"mp-weixin": {
+						  //   "usingComponents": {
+								// // 引入uniapp广告插件
+						  //       "uni-ad": "plugin://uni-ad/ad"
+						  //   }
+						}
+						// "titleNView":{
+						// 	"buttons":[
+						// 		{ 
+						// 		"type":"favorite",	
+						// 		"float":"right",
+						// 		"color":"#FFCB20",
+						// 		}
+						// 	]
+						// }
+					}
+				}
+			]
+		},
+		{
+			"root":"pages/ThreejsShow",
+			"pages":[
+				{
+				    "path" : "ThreejsShow",
+				    "style":{
+				    	"navigationBarTitleText": ""
+				    }
+				}
+			]
+		},
+		{
+			"root":"pages/PersonalInfor",
+			"pages":[
+				{
+				    "path" : "AmendInfor",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "修改信息",
+				        "enablePullDownRefresh": false,
+						"navigationStyle":"custom"
+				    }
+				} 
+				,{
+					"path" : "auditInfor",
+					"style" :                                                                                    
+					{
+						"navigationBarTitleText": "审核信息",
+						"enablePullDownRefresh": false
+						// "navigationStyle":"custom"
+					}
+				},{
+					"path" : "PersonalInfor",
+					"style" : {
+						"navigationBarTitleText": "我的资料",
+						"navigationBarBackgroundColor":"#f8f8f8"
+					}
+				}
+			]
+		},
+		{
+			"root":"pages/deviceManage",
+			"pages":[
+				{
+				    "path" : "addDevice",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "",
+				        "enablePullDownRefresh": false,
+						"navigationStyle":"custom"
+				    }
+				},
+				{
+					"path" : "deviceManage",
+					"style" : {
+						// "navigationStyle":"custom"
+						"navigationBarTextStyle":"black",
+						"navigationBarTitleText":"设备管理"
+					}
+				},
+				{
+					"path" : "groupDevices",
+					"style" :                                                                                    
+					{
+						"navigationBarTitleText": "",
+						"enablePullDownRefresh": false,
+						"navigationStyle":"custom"
+					}
+				},
+				{
+				    "path" : "editDevice",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "",
+				        "enablePullDownRefresh": false,
+						"navigationStyle":"custom"
+				    }
+				}
+			]
+		},
+		{
+			"root":"pages/doctorLogin",
+			"pages":[
+				{
+					"path" : "doctorLogin",
+					"style" :                                                                                    
+					{
+					    "navigationBarTitleText": "",
+					    "enablePullDownRefresh": false,
+						"navigationStyle":"custom"
+					} 
+				}
+			]
+		},
+		{
+			"root": "pages/teachTrain",
+			"pages": [
+				{
+					"path" : "teachTrain",
+					"style" :                                                                                    
+					{
+						"navigationBarTitleText": "教学培训",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path" : "trainInfor",
+					"style" :                                                                                    
+					{
+						"navigationBarTitleText": "教学内容",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path":"trainList",
+					"style" :
+					{
+						"navigationBarTitleText": "报名信息",
+						"enablePullDownRefresh": false
+					}
+				}
+			]	
+		},
+		 {
+	        "root": "pages/GuidePage",
+	        "pages": [{
+	            "path": "GuidePage",
+	            "style": {
+					"navigationBarTitleText": "",
+					"enablePullDownRefresh": false,
+					"navigationStyle":"custom"
+				}
+	        }]
+	    },
+		{
+			"root": "pages/GeneralSetting",
+			"pages": [
+				{
+					"path": "GeneralSetting",
+					"style" :
+					{
+						"navigationBarTitleText": "通用",
+						"enablePullDownRefresh": false,
+						"navigationBarBackgroundColor":"#f8f8f8"
+					}
+				},
+				{
+					"path": "settingLogo",
+					"style" :
+					{
+						"navigationBarTitleText": "自定义LOGO",
+						"enablePullDownRefresh": false,
+						"navigationBarBackgroundColor":"#F8F8F8"
+					}
+				}
+			] 
+		},
+		{
+		    "root": "pages/aboutShoyii",
+		    "pages": [
+				{
+				    "path" : "aboutShoyii",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "关于树蚁",
+				        "enablePullDownRefresh": false
+				    }
+				},{
+				    "path" : "introduce",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "功能介绍",
+				        "enablePullDownRefresh": false
+				    }
+				},{
+				    "path" : "lawNotice",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "法律声明",
+				        "enablePullDownRefresh": false
+				    }
+				},{
+				    "path" : "privacyPolicy",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "隐私政策",
+				        "enablePullDownRefresh": false,
+						"h5":{
+							"titleNView":"false"
+						}
+				    }
+				},{
+				    "path" : "userAgree",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "用户协议",
+				        "enablePullDownRefresh": false,
+						"h5":{
+							"titleNView":"false"
+						}
+				    }
+				},
+				{
+				    "path" : "complain",
+				    "style" :                                                                                    
+				    {
+				        "navigationBarTitleText": "问题与意见反馈",
+				        "enablePullDownRefresh": false
+				    }
+				},
+					{
+					    "path" : "aboutCompony",
+					    "style" :                                                                                    
+					    {
+					        "navigationBarTitleText": "公司简介",
+					        "enablePullDownRefresh": false,
+							"navigationStyle":"custom"
+					    }
+					}
+			]
+		},
+		{
+			"root": "pages/NavTest",
+			 "pages": [
+				 {
+					 "path": "NavTest",
+					 "style":{
+					 	"navigationBarTitleText": "导航栏测试",
+					 	"navigationBarBackgroundColor":"#FFFFFF",
+					 	"navigationBarTextStyle":"black",
+					 	"navigationStyle":"custom"
+					 }
+				}
+			]
+		},
+		{	
+			"root": "pages/shoyiiChat",
+			"pages": [
+				{
+					"path": "index",
+					"style" : {
+						"navigationBarTitleText": "聊天页",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black",
+						"navigationStyle":"custom"
+					}
+				},
+				{
+					"path": "chatWindow",
+					"style" : {
+						"navigationBarTitleText": "聊天",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black",
+						"app-plus":{
+							"titleNView":{
+								"buttons":[
+									{
+										"type":"menu",
+										"float":"right",
+										"color":"#666" 
+									}
+								]
+							}
+						},
+						"h5":{
+							"titleNView":{
+								"buttons":[
+									{
+										"type":"menu",
+										"float":"right"
+									}
+								]
+							}
+						},
+						"mp-weixin":{
+							"navigationStyle":"custom"
+						}
+					}
+				},
+				{
+					"path": "contactGroup",
+					"style" : {
+						"navigationBarTitleText": "群组信息",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black"
+					}
+				},
+				{
+					"path": "searchInfor",
+					"style" : {
+						"navigationBarTitleText": "添加好友",
+						"navigationBarBackgroundColor":"#F8F8F8",
+						"navigationBarTextStyle":"black"
+					}
+				},
+				{
+					"path": "addFriends",
+					"style" : {
+						"navigationBarTitleText": "",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black",
+						"navigationStyle":"custom"
+					}
+				},
+				{
+					"path": "inviteOther",
+					"style" : {
+						"navigationBarTitleText": "选择联系人",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black"
+					}
+				},
+				{
+					"path": "newFriend",
+					"style" : {
+						"navigationBarTitleText": "新的朋友",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black",
+						"navigationStyle":"custom"
+					}
+				},
+				{
+					"path": "complaint",
+					"style" : {
+						"navigationBarTitleText": "投诉",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black"
+					}
+				}
+			    ,{
+                    "path" : "search",
+                    "style" : {
+						"navigationBarTitleText": "添加朋友",
+						"enablePullDownRefresh": false
+					}
+                }
+                ,{
+                    "path" : "amendName",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+            ]
+		},
+		{	
+			"root": "pages/aboutUs",
+			"pages": [
+				{
+					"path": "aboutUs",
+					"style" : {
+						"navigationBarTitleText": "关于我们",
+						"navigationBarBackgroundColor":"#FFFFFF",
+						"navigationBarTextStyle":"black",
+						"app-plus": {
+							"subNVues":[
+								{
+									"id":"video",
+									"path": "subNVue/video",
+									"type": "popup", 
+									"style": {  
+										"position": "absolute",  
+										"mask": "rgba(0,0,0,0.5)",  
+										"margin":"auto",
+										"width": "700rpx",
+										"height": "380rpx"  
+									}  
+								}
+							]
+						}
+						
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/shoyiiStore",
+			"pages": [
+				{
+					"path": "shoyiiStore",
+					"style" : {
+						"navigationBarBackgroundColor":"#007AFF",
+						"navigationBarTextStyle":"white",
+						"navigationBarTitleText":"树蚁商城",
+						"navigationBarShadow":{
+							// "colorType":"orange"
+						},
+						"navigationStyle":"default"	
+					}
+				}
+			]
+		},
+		{	
+			"root": "pages/notice",
+			"pages": [
+				{
+					"path": "notice",
+					"style" :
+					{
+					    "navigationBarTitleText": "消息中心",
+					    "enablePullDownRefresh": false
+					}
+			    },
+				{
+				    "path" : "noticeDetail",
+				    "style" :
+				    {
+				        "navigationBarTitleText": "消息详情",
+				        "enablePullDownRefresh": false
+				    }
+				}
+			]
+		},
+		{
+			"root": "pages/news",
+			"pages": [
+				{
+				    "path" : "news",
+				    "style" :{
+				        "navigationBarTitleText": "新闻列表",
+				        "enablePullDownRefresh": false,
+						"navigationStyle":"custom",
+						"app-plus":{
+							"navigationStyle":"default"
+						},
+						"h5":{
+							"navigationStyle":"custom"
+						}
+				     }
+				},{
+				    "path" : "newsDetail",
+				    "style" : {
+						"app-plus":{
+							"titleNView":{
+								"buttons":[
+									{
+										"type":"share",
+										"float":"right",
+										"color":"#999" 
+									}
+								]
+							}
+						},
+						"h5":{
+							"titleNView":{
+							}
+						}
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/orderManage",
+			"pages": [
+				{
+				    "path" : "orderManage",
+				    "style" :
+				    {
+				        "navigationBarTitleText": "订单管理",
+				        "enablePullDownRefresh": false
+				    }
+				},{
+				    "path" : "orderDetail",
+				    "style" :
+				    {
+				        "navigationBarTitleText": "账单详情",
+				        "enablePullDownRefresh": false
+				    }
+				},{
+				    "path" : "orderQuestion",
+				   "style" :
+				   {
+				       "navigationBarTitleText": "订单有疑问",
+				       "enablePullDownRefresh": false,
+					   "navigationBarBackgroundColor":"#f8f8f8"
+				   }
+				},{
+				    "path" : "orderSuccess",
+				   "style" :
+				   {
+				       "navigationBarTitleText": "支付成功",
+				       "enablePullDownRefresh": false
+				   }
+				},{
+					"path" : "paymentOrder",
+					"style" :
+					{
+					    "navigationBarTitleText": "支付详情",
+					    "enablePullDownRefresh": false
+					}
+				},
+				{
+					"path" : "miniparamPay",
+					"style" :
+					{
+					    "navigationBarTitleText": "订单支付",
+					    "enablePullDownRefresh": false
+					}
+				},{
+					"path" : "invoice",
+					"style" :
+					{
+					    "navigationBarTitleText": "申请发票",
+					    "enablePullDownRefresh": false
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/surgicalListParam",
+			"pages": [{
+			    "path": "surgicalListParam",
+			   "style" :
+			   {
+			       "navigationBarTitleText": "方法库",
+			       "enablePullDownRefresh": false
+			   }
+			}] 
+		},
+		{
+			"root": "pages/previewPdf",
+			"pages": [{
+			    "path": "previewPdf",
+			   "style" :{}
+			}] 
+		},
+		{
+			"root": "pages/register",
+			"pages": [{
+			   "path": "register",
+			   "style" :{
+				   "navigationBarTitleText": "注册",
+				   "navigationBarBackgroundColor":"#FFFFFF",
+				   "navigationBarTextStyle":"black"
+			   }
+			}] 
+		},
+		{
+			"root": "pages/ForgetPassword",
+			"pages": [{
+			   "path": "ForgetPassword",
+			   "style" :{
+				   "navigationBarTitleText": "忘记密码",
+				   "enablePullDownRefresh": false
+			   }
+			},
+			{
+			   "path": "SetPassword",
+			   "style" :{
+				  "navigationBarTitleText": "设置密码",
+				  "enablePullDownRefresh": false
+			   }
+			}] 
+		},
+		{
+			"root": "pages/AccoutSecurity",
+			"pages": [{
+			   "path": "AccoutSecurity",
+			   "style" :{
+				  "navigationBarTitleText": "账号安全",
+				  "enablePullDownRefresh": false,
+				  "navigationBarBackgroundColor":"#f8f8f8"
+			   }
+			},
+			{
+			   "path": "amendPhone",
+			   "style" :{
+				 "navigationBarTitleText": "修改手机号",
+				 "enablePullDownRefresh": false
+			   }
+			},
+			{
+			   "path": "changePhone",
+			   "style" :{
+				"navigationBarTitleText": "更换新手机号",
+				"enablePullDownRefresh": false
+			   }
+			},
+			{
+			   "path": "amendPwd",
+			   "style" :{
+					"navigationBarTitleText": "修改密码",
+					"enablePullDownRefresh": false
+			   }
+			},{
+				"path": "secondPwd",
+				"style" :{
+					 "navigationBarTitleText": "修改二级密码",
+					 "enablePullDownRefresh": false
+				}
+			 }] 
+		},
+		{"root": "pages/map",
+			"pages":[
+				{
+					"path": "map",
+					"style":{
+						"navigationBarTitleText": "地图测试",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "echarts",
+					"style":{
+						"navigationBarTitleText": "echarts",
+						"enablePullDownRefresh": false
+					}
+				}
+			]
+		},
+		// {
+		// 	"root":"pages/weather",
+		// 	"pages":[
+		// 		{
+		// 			"path":"weather",
+		// 			"style" :
+		// 			{
+		// 			    "navigationBarTitleText": "天气状况",
+		// 			    "enablePullDownRefresh": false
+		// 			}
+		// 		}
+		// 	]
+		// },
+		{
+			"root":"pages/errpage",
+			"pages":[
+				{
+					"path":"errpage",
+					"style":{
+						"navigationBarTitleText": "页面错误",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path":"404",
+					"style":{
+						"navigationBarTitleText": "页面不存在",
+						"enablePullDownRefresh": false
+					}
+				}
+			]   
+		},
+		{
+		    "root" : "pages/download",
+			"pages":[
+				{
+					"path":"download",
+					"style" :{
+					    "navigationBarTitleText": "树蚁App下载",
+					    "enablePullDownRefresh": false,
+						"navigationStyle":"custom"
+					}
+				}
+			]
+		},
+		{
+            "root" : "pages/otherDoctor",
+			"pages":[
+				{
+					"path":"otherDoctor",
+					"style":{
+						"navigationBarTitleText": "个人主页",
+						"enablePullDownRefresh": false
+					}
+				}
+			]
+        },
+		{	
+			"root":"pages/search",
+			"pages":[
+				{
+					"path": "search",
+					"style":{
+						// "navigationStyle":"custom",
+						"titleNView":{
+							"buttons":[
+								{ 
+								"float":"right",
+								"text":"搜索",
+								"fontSize":"14px"
+								}
+							],
+							"searchInput":{
+								"autoFocus":"true",
+								"backgroundColor":"#EEEEEE",
+								"align":"left",
+								"borderRadius":"8px",
+								"placeholder":"输入搜索内容"
+							}
+						}
+					}
+				}
+			]
+		}
+	],
+	"preloadRule":{//wifi下预加载聊天页面
+		"pages/Tabbar/index": {
+		  "network": "wifi",
+		  "packages": ["pages/shoyiiChat"]
+		}
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		// "navigationBarTitleText": "shoyii",
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"backgroundColor": "#FFFFFF",
+		"usingComponents":{
+			// "van-nav-bar": "./wxcomponents/vant/dist/nav-bar/index"
+		}
+	},
+	"easycom": {
+			// "^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
+	"tabBar":{
+		"color":"#000000",
+		"selectedColor":"#69CDFF",
+		"backgroundColor":"#F7F7F7",
+		"fontSize":"12px",
+		"height":"55px",
+		"list":[
+			{
+				"pagePath":"pages/Tabbar/index",
+				"text":"首页",
+				"iconPath":"/static/image/index.png",
+				"selectedIconPath":"/static/image/index1.png"
+			},
+			// #ifdef APP-PLUS||H5 
+			{
+				"pagePath":"pages/Tabbar/surgicalData",
+				"text":"方法库",
+				"iconPath":"/static/image/method.png",
+				"selectedIconPath":"/static/image/method1.png"	
+			},
+			// #endif 
+			{
+				"pagePath":"pages/Tabbar/case",
+				"text":"病例",
+				"iconPath":"/static/image/case.png",
+				"selectedIconPath":"/static/image/case1.png"
+			},
+			{
+				"pagePath":"pages/Tabbar/model",
+				"text":"模型",
+				"iconPath":"/static/image/model.png",
+				"selectedIconPath":"/static/image/model1.png"	
+			},
+			{
+				"pagePath":"pages/Tabbar/mine",
+				"text":"我的",
+				"iconPath":"/static/image/mine.png",
+				"selectedIconPath":"/static/image/mine1.png"
+			}
+		]
+	},
+	"condition" : { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [
+			{
+				"name": "", //模式名称
+				"path": "", //启动页面，必选
+				"query": "" //启动参数，在页面的onLoad函数里面得到
+			}
+		]
+	},
+	"lazyCodeLoading": "requiredComponents"
+}

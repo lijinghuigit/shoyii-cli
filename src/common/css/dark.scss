@@ -1,0 +1,51 @@
+@import '@/uni.scss';
+/* #ifndef APP-NVUE */
+[data-theme='dark']{
+	background-color: $dark-bg-main!important; 
+	.sy_main{
+		background-color: $dark-bg-main!important;
+	}
+	.sy_block{
+		background-color: $dark-bg-block!important;
+		color: $dark-color-primary!important;
+		// color: $dark-color-deep!important;
+	}
+	.sy_title_primary{
+		color: $dark-color-primary!important; 
+	}
+	.sy_content{
+		color: $dark-color-content!important;
+	}
+	.sy_tip{
+		color: $dark-color-tip!important;
+	}
+	.sy_title_deep{
+		color: $dark-color-deep!important;
+	}
+	.sy_border_top{
+		border-top:1px solid $dark-border-color!important;
+	}
+	.sy_border_bottom{
+		border-bottom:1px solid $dark-border-color!important;
+	}
+	.sy_border{
+		border:1px solid $dark-border-color!important;
+	}
+	.sy_border_none{
+		border: none!important;
+	}
+	.sy_border_bt{
+		border-bottom:1px solid $dark-border-color!important;
+		border-top:1px solid $dark-border-color!important;
+	}
+	.sy_hover_bg{
+		background-color: $dark-border-color!important;
+	}
+}
+/* #endif */
+
+
+	
+
+
+

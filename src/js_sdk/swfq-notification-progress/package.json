@@ -1,0 +1,13 @@
+{
+    "id": "swfq-notification-progress",
+    "name": "Android系统通知通知栏显示进度条",
+    "version": "1.0.0",
+    "description": "Android系统通知的实现；在通知栏中显示下载进度条；兼容android8.0及以上",
+    "keywords": [
+        "Android",
+        "系统通知",
+        "通知栏",
+        "进度条",
+        "Native.js"
+    ]
+}

@@ -1,0 +1,308 @@
+{
+    "name" : "树蚁医疗",
+    "appid" : "__UNI__AF91735",
+    "description" : "树蚁医疗是一个方便医生进行精准外科三维数据展示与运用，从而关联XR影像系统，自研三维重建系统。真正帮助医生阅读精准三维诊断数据，精准外科学习与运用",
+    "versionName" : "1.1.66",
+    "versionCode" : 137,
+    "transformPx" : false,
+    "locale" : "zh-Hans", // 设置默认语言，
+    "app-plus" : {
+        "nvueStyleCompiler" : "uni-app",
+        "compatible" : {
+            "ignoreVersion" : true //true表示忽略版本检查提示框，HBuilderX1.9.0及以上版本支持  
+        },
+        "nvueCompiler" : "uni-app",
+        "compilerVersion" : 3,
+        "modules" : {
+            "VideoPlayer" : {},
+            "Share" : {},
+            "OAuth" : {},
+            "Payment" : {},
+            "Push" : {}
+        },
+        // "optimization": {
+        //     "subPackages": true
+        // },
+        // "runmode" : "liberate",// 开启分包优化后，必须配置资源释放模式
+        "distribute" : {
+            "android" : {
+                "permissions" : [
+                    "<uses-permission android:name=\"android.permission.ACCESS_CHECKIN_PROPERTIES\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_LOCATION_EXTRA_COMMANDS\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_MOCK_LOCATION\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_SURFACE_FLINGER\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCOUNT_MANAGER\"/>",
+                    "<uses-permission android:name=\"android.permission.ADD_VOICEMAIL\"/>",
+                    "<uses-permission android:name=\"android.permission.AUTHENTICATE_ACCOUNTS\"/>",
+                    "<uses-permission android:name=\"android.permission.BATTERY_STATS\"/>",
+                    "<uses-permission android:name=\"android.permission.BIND_ACCESSIBILITY_SERVICE\"/>",
+                    "<uses-permission android:name=\"android.permission.BIND_APPWIDGET\"/>",
+                    "<uses-permission android:name=\"android.permission.BIND_CARRIER_MESSAGING_SERVICE\"/>",
+                    "<uses-permission android:name=\"android.permission.BIND_DEVICE_ADMIN\"/>",
+                    "<uses-permission android:name=\"android.permission.BIND_DREAM_SERVICE\"/>",
+                    "<uses-permission android:name=\"android.permission.BIND_INPUT_METHOD\"/>",
+                    "<uses-permission android:name=\"android.permission.BIND_NFC_SERVICE\"/>",
+                    "<uses-permission android:name=\"android.permission.BIND_NOTIFICATION_LISTENER_SERVICE\"/>",
+                    "<uses-permission android:name=\"android.permission.BIND_PRINT_SERVICE\"/>",
+                    "<uses-permission android:name=\"android.permission.BIND_REMOTEVIEWS\"/>",
+                    "<uses-permission android:name=\"android.permission.BIND_TEXT_SERVICE\"/>",
+                    "<uses-permission android:name=\"android.permission.BIND_TV_INPUT\"/>",
+                    "<uses-permission android:name=\"android.permission.BIND_VOICE_INTERACTION\"/>",
+                    "<uses-permission android:name=\"android.permission.BIND_VPN_SERVICE\"/>",
+                    "<uses-permission android:name=\"android.permission.BIND_WALLPAPER\"/>",
+                    "<uses-permission android:name=\"android.permission.BLUETOOTH_PRIVILEGED\"/>",
+                    "<uses-permission android:name=\"android.permission.BODY_SENSORS\"/>",
+                    "<uses-permission android:name=\"android.permission.BRICK\"/>",
+                    "<uses-permission android:name=\"android.permission.BROADCAST_PACKAGE_REMOVED\"/>",
+                    "<uses-permission android:name=\"android.permission.BROADCAST_SMS\"/>",
+                    "<uses-permission android:name=\"android.permission.BROADCAST_STICKY\"/>",
+                    "<uses-permission android:name=\"android.permission.BROADCAST_WAP_PUSH\"/>",
+                    "<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
+                    "<uses-permission android:name=\"android.permission.CALL_PRIVILEGED\"/>",
+                    "<uses-permission android:name=\"android.permission.CAMERA\"/>",
+                    "<uses-permission android:name=\"android.permission.CAPTURE_AUDIO_OUTPUT\"/>",
+                    "<uses-permission android:name=\"android.permission.CAPTURE_SECURE_VIDEO_OUTPUT\"/>",
+                    "<uses-permission android:name=\"android.permission.CAPTURE_VIDEO_OUTPUT\"/>",
+                    "<uses-permission android:name=\"android.permission.CHANGE_COMPONENT_ENABLED_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.CHANGE_CONFIGURATION\"/>",
+                    "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.CHANGE_WIFI_MULTICAST_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.CLEAR_APP_CACHE\"/>",
+                    "<uses-permission android:name=\"android.permission.CLEAR_APP_USER_DATA\"/>",
+                    "<uses-permission android:name=\"android.permission.CONTROL_LOCATION_UPDATES\"/>",
+                    "<uses-permission android:name=\"android.permission.INSTALL_PACKAGES\"/>",
+                    "<uses-permission android:name=\"android.permission.INTERNET\"/>",
+                    "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
+                    "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
+                    "<uses-permission android:name=\"android.permission.REQUEST_INSTALL_PACKAGES\"/>",
+                    "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
+                    "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
+                ],
+                "abiFilters" : [ "armeabi-v7a", "arm64-v8a" ],
+                "schemes" : [ "shoyiimedical" ],
+                "minSdkVersion" : 21
+            },
+            "ios" : {
+                "dSYMs" : false
+            },
+            "sdkConfigs" : {
+                "geolocation" : {},
+                "maps" : {
+                    "amap" : {
+                        "appkey_ios" : "66fd13c250cc61df33e87d650f638255",
+                        "appkey_android" : "ebcd2298e20d7b6eceed1819fb34c395"
+                    }
+                },
+                "oauth" : {
+                    "weixin" : {
+                        "appid" : "wxdbe07c2bfb651890",
+                        "appsecret" : "",
+                        "UniversalLinks" : ""
+                    },
+                    "univerify" : {}
+                },
+                "ad" : {
+                    "gdt" : {},
+                    "csj" : {},
+                    "ks" : {},
+                    "ks-content" : {}
+                },
+                "payment" : {
+                    "weixin" : {
+                        "__platform__" : [ "android" ],
+                        "appid" : "wxdbe07c2bfb651890",
+                        "UniversalLinks" : ""
+                    },
+                    "alipay" : {
+                        "__platform__" : [ "android" ]
+                    }
+                },
+                "push" : {
+                    "unipush" : {
+                        "icons" : {
+                            "small" : {
+                                "ldpi" : "C:/Users/Administrator/Desktop/app/img/icon/push/18.png",
+                                "mdpi" : "C:/Users/Administrator/Desktop/app/img/icon/push/24.png",
+                                "hdpi" : "C:/Users/Administrator/Desktop/app/img/icon/push/36.png",
+                                "xhdpi" : "C:/Users/Administrator/Desktop/app/img/icon/push/48.png",
+                                "xxhdpi" : "C:/Users/Administrator/Desktop/app/img/icon/push/72.png"
+                            }
+                        }
+                    }
+                },
+                "share" : {
+                    "weixin" : {
+                        "appid" : "wxdbe07c2bfb651890",
+                        "UniversalLinks" : ""
+                    },
+                    "qq" : {
+                        "appid" : "1111144657"
+                    }
+                },
+                "speech" : {
+                    "baidu" : {
+                        "appid" : "23913950",
+                        "apikey" : "oXDDX8tqMkqNLFSShDPDMaBA",
+                        "secretkey" : "5QEbN7uS5SjdZb2NI9vryzjGmSu06MxU"
+                    }
+                }
+            },
+            "icons" : {
+                "android" : {
+                    "hdpi" : "C:/Users/Administrator/Desktop/app/img/android/image/72.png",
+                    "xhdpi" : "C:/Users/Administrator/Desktop/app/img/android/image/96.png",
+                    "xxhdpi" : "C:/Users/Administrator/Desktop/app/img/android/image/144.png",
+                    "xxxhdpi" : "C:/Users/Administrator/Desktop/app/img/android/image/192.png"
+                }
+            },
+            "splashscreen" : {
+                "androidStyle" : "common",
+                "android" : {
+                    "hdpi" : "static/wechat.png",
+                    "xhdpi" : "static/wechat.png",
+                    "xxhdpi" : "static/wechat.9.png"
+                },
+                "useOriginalMsgbox" : true
+            },
+            "permissionExternalStorage" : {
+                "request" : "always",
+                "prompt" : "应用保存运行状态等信息，需要获取读写手机存储（系统提示为访问设备上的照片、媒体内容和文件）权限，请允许。"
+            },
+            "permissionPhoneState" : {
+                "request" : "always",
+                "prompt" : "为保证您正常、安全地使用，需要获取设备识别码（部分手机提示为获取手机号码）使用权限，请允许。"
+            }
+        },
+        "splashscreen" : {
+            "alwaysShowBeforeRender" : false,
+            "waiting" : false,
+            "autoclose" : false,
+            "delay" : 0
+        },
+        "privacy" : {
+            "prompt" : "template", //可取值template、custom、none  
+            "template" : {
+                //prompt取值为template时有效，用于配置模板提示框上显示的内容
+                "title" : "ShoYii隐私政策",
+                "message" : "　　请你务必审慎阅读、充分理解隐私政策”各条款，包括但不限于：为了更好的向你提供服务，我们需要收集你的设备标识、操作日志等信息用于分析、优化应用性能。<br/>　　你可阅读<a href='https://mobile.shoyii.com/#/pages/aboutShoyii/userAgree'>《用户协议》</a>和<a href='https://mobile.shoyii.com/#/pages/aboutShoyii/privacyPolicy'>《隐私政策》</a> 了解详细信息。如果你同意，请点击下面按钮开始接受我们的服务。",
+                "buttonAccept" : "我同意",
+                "buttonRefuse" : "暂不同意",
+                "second" : {
+                    "title" : "确认提示",
+                    "message" : "　　进入应用前，你需先同意<a href='https://mobile.shoyii.com/#/pages/aboutShoyii/userAgree'>《服务协议》</a>和<a href='https://mobile.shoyii.com/#/pages/aboutShoyii/privacyPolicy'>《隐私政策》</a>，否则将退出应用。",
+                    "buttonAccept" : "同意并继续",
+                    "buttonRefuse" : "退出应用"
+                }
+            }
+        },
+        "uniStatistics" : {
+            "enable" : true
+        }
+    },
+    "quickapp" : {},
+    "mp-weixin" : {
+        "appid" : "wx347cba31a8aac486",
+        "setting" : {
+            "urlCheck" : false,
+            "es6" : true,
+            "postcss" : true,
+            "minified" : true
+        },
+        "permission" : {},
+        "optimization" : {
+            "subPackages" : true
+        },
+        "uniStatistics" : {
+            "enable" : true
+        }
+    },
+    // 广告插件配置
+    // "plugins" : {
+    //     "uni-ad" : {
+    //         "version" : "1.0.2",
+    //         "provider" : "wx999bf02c8e05dfc9"
+    //     },
+    //     "coral-adv" : {
+    //         "version" : "1.0.9",
+    //         "provider" : "wx0e203209e27b1e66"
+    //     }
+    // }
+    "quickapp-webview" : {
+        "icon" : "C:/Users/Administrator/Desktop/app/img/icon/logo.png",
+        "package" : "com.nuoman.shoyii",
+        "versionName" : "1.0.0",
+        "minPlatformVersion" : 1070,
+        "versionCode" : 1
+    },
+    "quickapp-webview-huawei" : {
+        "icon" : "C:/Users/Administrator/Desktop/app/img/icon/192.png",
+        "package" : "com.nuoman.shoyii",
+        "minPlatformVersion" : 1073, //最小平台支持 >= 1070  
+        "versionName" : "1.0.0",
+        "versionCode" : 1
+    },
+    "h5" : {
+        "router" : {
+            "mode" : "hash",
+            "base" : "./"
+        },
+        "title" : "shoyii",
+        "domain" : "192.168.31.40",
+        "devServer" : {
+            "disableHostCheck" : true
+        },
+        // "proxy" : {
+        //     "/proxy-hostpital" : {
+        //         "target" : "https://shoyii-open-1258143571.cos.ap-guangzhou.myqcloud.com", //请求转发给谁
+        //         "changeOrigin" : true, //控制服务器收到的请求头中Host的值,默认值是false，如果是false，请求头还是8080，而不是微信的http
+        //         "secure" : false,
+        //         "pathRewrite" : {
+        //             "^\/proxy-hostpital/" : ""
+        //         }
+        //     },
+        //     "/proxy-ju" : {
+        //         "target" : "http://apis.juhe.cn", //请求转发给谁
+        //         "changeOrigin" : true, //控制服务器收到的请求头中Host的值,默认值是false，如果是false，请求头还是8080，而不是微信的http
+        //         "secure" : false,
+        //         "pathRewrite" : {
+        //             "^/proxy-ju" : ""
+        //         }
+        //     }
+        // }
+        "optimization" : {
+            "treeShaking" : {
+                "enable" : true //启用摇树优化  
+            }
+        },
+        "uniStatistics" : {
+            "enable" : true
+        },
+        "template" : "index.html"
+    },
+    "mp-qq" : {
+        "optimization" : {
+            "subPackages" : true
+        },
+        "setting" : {
+            "es6" : true,
+            "postcss" : true,
+            "minified" : true,
+            "urlCheck" : false
+        },
+        "appid" : "1111260965"
+    },
+    "vueVersion" : "3",
+    "uniStatistics" : {
+        "version" : "2"
+    }
+}

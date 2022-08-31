@@ -1,0 +1,36 @@
+ {
+	"locale.auto":"系统",
+	"locale.en":"English",
+	"locale.zh-hans":"简体中文",
+	"locale.zh-hant":"繁体中文",
+	"locale.ja":"日语",
+	// 首页相关
+	"index.Moremenu":"更多",
+	"index.publicMenu":"公开模型",
+	"index.deviceManage":"设备管理",
+	"index.shoyiiNews":"树蚁资讯",
+	"index.orderManage":"订单管理",
+	"index.comingSoon":"敬请期待",
+	"index.caseManage":"服务进程",
+	"index.Surgical":"方法库",
+	"index.PublicModel":"公开模型",
+	"index.ShoYiiCase":"树蚁案例",
+	"index.ShoYiiGuide":"树蚁说明",
+	"index.TeachTrain":"教学培训",
+	"index.ClassifyCase":"经典案例",
+	// tabbar
+	"tabbar.index":"首页",
+	"tabbar.surgical":"方法库",
+	"tabbar.case":"病例",
+	"tabbar.model":"模型",
+	"tabbar.mine":"我的",
+	// mine
+	"mine.mysurgical":"我的方法库",
+	"mine.ordermanage":"我的订单管理",
+	"mine.devicemanage":"我的设备管理",
+	"mine.accountsecurity":"账号安全",
+	"mine.general":"通用",
+	"mine.aboutus":"关于树蚁",
+	"mine.exchange":"切换账号",
+	"mine.exit":"退出登录"
+}

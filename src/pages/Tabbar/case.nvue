@@ -1,0 +1,722 @@
+<template>
+	<view class="tabs" :class="themeType=='dark'?'sy_main':''">
+		<!-- #ifndef MP-WEIXIN -->
+		<view class="header" :style="{height:statusBarHeight+44+'px'}" style="display: flex;align-items: center;">
+			 <!--状态栏占位 -->
+			<view class="statusBar" :style="{height:statusBarHeight+'px'}"></view> 
+			<view class="info" :class="themeType=='dark'?'sy_block':''">
+				<uni-search-bar class="search_bar" v-model="searchContent" cancelButton='none'
+				@confirm="searchConfirm" :radius="100"
+				:bgColor="themeType=='dark'?'#1B1C1E':'rgb(248, 248, 248)'"
+				placeholder="输入病例名称"></uni-search-bar>
+				<uni-icons type="chat" :color="themeType=='dark'?'#8f8f8f':'#999'" size='26' @click="help" style="margin-left: 30rpx;"></uni-icons>
+			</view>
+		</view> 
+		<!-- #endif -->
+		<!-- #ifdef MP-WEIXIN -->
+		<mini-nav :statusBarHeight='statusBarHeight' :widthLength='widthLength' 
+		:miniObject='miniObject' @help='help' @search='minisearchConfirm' @clear='clear'></mini-nav>
+		<!-- #endif -->
+		<scroll-view enable-flex :scroll-x="true" class="scroll-h" :show-scrollbar="false" :scroll-into-view="scrollInto"
+		 :class="themeType=='dark'?'sy_block':''" >
+		 	<view v-for="(tab,index) in tabBars" :key="tab.id" class="uni-tab-item" :id="tab.id" :data-current="index" @click="ontabtap">
+		 	    <text class="uni-tab-item-title" :class="[themeType=='dark'?'sy_title_primary':'',tabIndex==index ? 'uni-tab-item-title-active' : '']">{{tab.name}}</text>
+		 	</view>
+		</scroll-view>
+		 <view class="line-h" :class="themeType=='dark'?'sy_block':''" ></view>
+		 <view class="dateAll">
+			 <view class="date" :class="themeType=='dark'?'sy_block':''" >
+				<!-- #ifdef APP-PLUS -->
+				<uni-icons type="calendar" size="26" :color="themeType=='dark'?'#8f8f8f':'#999'"></uni-icons>
+				<!-- <text class="iconfont iconrili"></text> -->
+				<!-- #endif -->
+				<!-- #ifndef APP-PLUS -->
+				<uni-icons custom-prefix="iconfont" type="iconrili" size="18" :color="themeType=='dark'?'#8f8f8f':'#999'"></uni-icons>
+				<!-- #endif -->
+				<view class="time">
+					<view class="start" @click="start">
+						<text class="datetext">{{startDate}}</text>
+					</view>
+					<text class="datetext">至</text>
+					<view class="start" @click="start">
+						<text class="datetext">{{endDate}}</text>
+					</view>
+				</view>
+			 </view>
+		 </view>
+		 <swiper :current="tabIndex" class="swiper-box" style="flex: 1;" :duration="300" @change="ontabchange">
+		 	<swiper-item class="swiper-item" v-for="(tab,index1) in caseList" :key="index1">
+		 		<!-- #ifdef APP-NVUE -->
+				<list class="scroll-v list" 
+				enableBackToTop="true" scroll-y loadmoreoffset="15" @loadmore="loadMore(index1)">
+					<refresh class="refresh" @refresh="onrefresh(index1)" @pullingdown="onpullingdown" :display="tab.refreshing ? 'show' : 'hide'">
+						<div class="refresh-view">
+							<image lazy-load class="refresh-icon" :src="refreshIcon" :style="{width: (tab.refreshing || pulling) ? 0: '30px'}" :class="{'refresh-icon-active': tab.refreshFlag}"></image>
+							<loading-indicator class="loading-icon" animating="true" v-if="tab.refreshing"></loading-indicator>
+							<text class="loading-text">{{tab.refreshText}}</text>
+						</div>
+					</refresh>
+					<cell v-for="(item,index2) in tab.data" :key="item.caseHistoryId" >
+						<caselist-item :casecode="item.caseHistoryNo" :Uname='item.name' :Caseid=item.caseHistoryId :content='item.title' :imgUrl='item.previewImage'></caselist-item>
+					</cell>
+					<cell class="loading-more" v-if="tab.isLoading || tab.page < tab.total">
+						<text class="loading-more-text">{{tab.loadingText}}</text>
+					</cell>
+				</list>
+				<!-- #endif -->
+				<!-- #ifndef APP-NVUE -->
+				<scroll-view class="scroll-v list" enableBackToTop="true" scroll-y @scrolltolower="loadMore(index1)">
+					<view v-for="(item,index2) in tab.data" :key="item.id">
+						<caselist-item :casecode="item.caseHistoryNo" :Uname='item.name' :Caseid='item.caseHistoryId' :content='item.title' :imgUrl='item.previewImage'></caselist-item>
+					</view>
+					<view class="loading-more" v-if="tab.isLoading || tab.page < tab.total">
+						<text class="loading-more-text">{{tab.loadingText}}</text>
+					</view>
+				</scroll-view>
+				<!-- #endif -->
+			</swiper-item>
+		 </swiper>
+		 <!-- 日历组件 -->
+		<uni-calendar
+		     ref="calendar"
+		     :insert="false"
+		 	:range='true'
+		     @confirm="dateconfirm"
+		 />
+		 <!-- 审核状态的模态框 -->
+		 <!-- #ifdef H5||MP-WEIXIN -->
+		 <u-no-network></u-no-network>
+		 <!-- #endif -->
+	</view>
+</template>
+<script>
+	import {getCaselist} from '@/utill/api/case/getCaselist.js'
+	import CaselistItem from '@/components/CaseList/CaselistItem.nvue'
+	import checkLogin from '@/utill/tools/checklogin.js'
+	import checkAudit from '@/utill/tools/checkAudit.js'
+	import {mapGetters} from 'vuex'
+	export default {
+		components:{
+			CaselistItem
+		},
+		data() {
+			return {
+				miniObject:{
+					placeHolder:'case'
+				},//小程序导航栏相关信息
+				tabBars:[
+					{
+						name: '全部',
+						id: 'case0',
+					},
+					{
+						name: '我的病例',
+						id: 'case1',
+					},
+					{
+						name: '协助病例',
+						id: 'case2',
+					},
+					{
+						name: '未确定',
+						id: 'case3',
+					},
+					{
+						name: '疑问病例',
+						id: 'case4',
+					},
+					{
+						name: '未支付病例',
+						id: 'case5',
+					},
+					{
+						name: '已完成',
+						id: 'case6',
+					},
+				],
+				tabIndex:0,
+				scrollInto:'',
+				caseList:[],//
+				size:6,
+				mark:0,//用来表示是初始化加载数据，还是加载下一页数据
+				pulling: false,
+				refreshIcon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAB5QTFRFcHBw3Nzct7e39vb2ycnJioqK7e3tpqam29vb////D8oK7wAAAAp0Uk5T////////////ALLMLM8AAABxSURBVHja7JVBDoAgDASrjqj//7CJBi90iyYeOHTPMwmFZrHjYyyFYYUy1bwUZqtJIYVxhf1a6u0R7iUvWsCcrEtwJHp8MwMdvh2amHduiZD3rpWId9+BgPd7Cc2LIkPyqvlQvKxKBJ//Qwq/CacAAwDUv0a0YuKhzgAAAABJRU5ErkJggg==",
+				startDate:'开始日期',
+				endDate:"结束日期",	
+				statusBarHeight: '', 
+				menuButtonInfo:{},//小程序胶囊的位置
+				searchContent:'',//
+			}
+		},
+		computed:{
+			...mapGetters({
+				DataStatus:'DataStatus',
+				themeType:'theme/themeType'
+			}),
+			// #ifdef MP-WEIXIN
+			widthLength(){
+				return 750 - this.menuButtonInfo.width*2
+			},
+			// #endif
+		},
+		methods:{
+			help(){
+				if(this.$store.getters['user/hasLogin']){
+					uni.navigateTo({
+						url:'/pages/shoyiiChat/index'
+					})
+				}else{
+					uni.showToast({
+						title:'未登录',
+						icon:'none'
+					})
+				}
+			},
+			clear(){
+				console.log('clear')
+			},
+			searchConfirm(){
+				if(!this.searchContent){
+					uni.showToast({
+						title:'内容不能为空',
+						icon:'none'
+					})
+					return;
+				}
+				this.search(this.searchContent)
+			},
+			//小程序的搜索
+			minisearchConfirm(e){
+				if(!e){
+					uni.showToast({
+						title:'内容不能为空',
+						icon:'none'
+					})
+					return;
+				}
+				this.search(e)
+			},
+			// 搜所内容
+			search(content){
+				let identity='ALL',
+				    otherStatus='';
+				switch (this.tabIndex){
+					case 1:
+						identity='ZZ'
+					break;
+					case 2:
+						identity='XZ'
+					break;
+					case 3://未确定
+						otherStatus='701'
+					break;
+					case 4://疑问病例
+						otherStatus='703'
+					break;
+					case 5://未支付
+						otherStatus='901'
+					break;
+					case 6://已完成
+						otherStatus='902'
+					break;
+					default:
+						identity='ALL',
+						otherStatus='';
+					break;
+				}
+				getCaselist({
+					name:content,
+					type:'ALL',//现在默认全是all
+					identity:identity,
+					otherStatus:otherStatus
+				}).then(res=>{
+					console.log(res)
+					if(res.data.code==0){
+						if(res.data.object.list.length==0){
+							uni.showToast({
+								title:'暂无数据',
+								icon:'none'
+							})
+						}else{
+							this.caseList[this.tabIndex].data=res.data.object.list
+						}
+					}else{
+						uni.showToast({
+							title:res.data.msg,
+							icon:'none'
+						})
+					}
+				}).catch(err=>{
+					console.log(err)
+				})
+			},
+			start(){//弹出日期组件
+				this.$refs.calendar.open();
+			},
+			dateconfirm(e){//日期确定
+				this.startDate=e.range.before
+				this.endDate=e.range.after
+				console.log(this.tabIndex)
+				this.getIndexData(0,this.tabIndex,this.startDate,this.endDate)
+			},
+			ontabtap(e){//顶部menu
+				console.log(e)
+				let index = e.target.dataset.current || e.currentTarget.dataset.current;
+				this.tabIndex = index;
+			},
+			ontabchange(e) {//轮播图切换
+			    let index = e.target.current || e.detail.current;
+			    this.switchTab(index);
+			},
+			switchTab(index){
+				// 避免刷新数据
+				this.startDate='开始日期'
+				this.endDate="结束日期"
+				this.caseList[this.tabIndex].refreshing=false//避免下拉刷新卡顿
+				if (this.caseList[index].data.length === 0) {
+					this.getIndexData(0,index,'','')
+				}
+				if (this.tabIndex === index) {
+					return;
+				}
+				this.tabIndex = index;
+				this.scrollInto = this.tabBars[index].id;
+				
+			},
+			getIndexData(mark,index,startTime,endTime){
+				if(!checkAudit()){//审核通过
+					switch (index){
+						case 0://全部病例
+							this.getCaseData(mark,index,'ALL','ALL',startTime,endTime,'')
+						break;
+						case 1://主治病例
+							this.getCaseData(mark,index,'ALL','ZZ',startTime,endTime,'')
+						break;
+						case 2://协助病例
+							this.getCaseData(mark,index,'ALL','XZ',startTime,endTime,'')
+						break;
+						case 3://未确定病例
+							this.getCaseData(mark,index,'ALL','ALL',startTime,endTime,'701')
+						break;
+						case 4://疑问病例
+							this.getCaseData(mark,index,'ALL','ALL',startTime,endTime,'703')
+						break;
+						case 5:// 未支付病例
+							this.getCaseData(mark,index,'ALL','ALL',startTime,endTime,'901')
+						break;
+						case 6://已完成病例
+							this.getCaseData(mark,index,'YWC','ALL',startTime,endTime,'902')
+						break;
+						default://全部病例
+							this.getCaseData(0,index,'ALL','ALL',startTime,endTime,'')
+						break;
+					}
+				} 
+			},
+			// 获取病例数据（mark为0表示初始化加载数据）
+			getCaseData(mark,index,status,identity,startTime,endTime,otherStatus){
+				console.log(mark)
+				console.log(index)
+				var timer = setTimeout(function() {
+					uni.showLoading({
+					  title: '数据加载中...',
+					})
+				}, 2000)
+				getCaselist({
+					// status:status,
+					identity:identity,
+					type:'ALL',//现在默认全是all
+					page:this.caseList[index].page,
+					size:this.size,
+					startTime:startTime,
+					endTime:endTime,
+					otherStatus:otherStatus,
+				}).then(res=>{
+					clearTimeout(timer)
+					uni.hideLoading()//关闭加载提示
+					console.log(res)
+					if(res.data.code==0){
+						console.log(res.data.object.list)
+						// uni.hideLoading()
+						console.log(res.data.object.pages)
+						this.caseList[index].total=res.data.object.pages//总页数
+						this.caseList[index].page++
+						if(res.data.object.list.length==0){
+							this.caseList[index].isLoading=true
+							this.caseList[index].loadingText='没有更多数据'
+						}
+						res.data.object.list.filter(item=>{
+							if(!item.previewImage){
+								item.previewImage=uni.getStorageSync('uploadLogo')
+							}
+							if(!item.name||item.name==''){
+								item.name='未填写'
+							}
+							if(!item.title||item.title==''){
+								item.title='未填写'
+							}
+						})
+						if(mark==1){//初始化加载数据
+							this.caseList[index].data=this.caseList[index].data.concat(res.data.object.list) 
+						}else {
+							this.caseList[index].data=res.data.object.list
+						}
+						console.log(this.caseList)
+					}else{
+						// uni.hideLoading()
+						uni.showModal({
+							title:'未登录',
+							content:'用户未登录',
+							confirmText:'前去登录',
+							success(e){
+								console.log(e)
+								if(e.confirm){//点击确定
+									uni.navigateTo({
+										url:'/pages/login/tellogin?pages='+'/pages/Tabbar/index'+'&pagetype'+1,
+										animationType:'pop-in'
+									})
+								}	
+							},	
+						})
+					}
+				})
+			},
+			loadMore(e) {
+				console.log(this.caseList)
+				switch (this.tabIndex){
+					case 0://全部病例
+						if(this.caseList[0].page>this.caseList[0].total){//加载的页数大于总页数时，停止加载数据
+							this.caseList[0].isLoading=true
+							this.caseList[0].loadingText='没有更多数据'
+							return //跳出该函数
+						}
+					break;//跳出switch
+					case 1://主治病例
+						if(this.caseList[1].page>this.caseList[1].total){//加载的页数大于总页数时，停止加载数据
+							this.caseList[1].isLoading=true
+							this.caseList[1].loadingText='没有更多数据'
+							return 
+						}
+					break;
+					case 2://协助病例
+						if(this.caseList[2].page>this.caseList[2].total){//加载的页数大于总页数时，停止加载数据
+							this.caseList[2].isLoading=true
+							this.caseList[2].loadingText='没有更多数据'
+							return 
+						}
+					break;
+					case 3://未发布病例
+						if(this.caseList[3].page>this.caseList[3].total){//加载的页数大于总页数时，停止加载数据
+							this.caseList[3].isLoading=true
+							this.caseList[3].loadingText='没有更多数据'
+							return 
+						}
+					break;
+					case 4://已发布病例
+						if(this.caseList[4].page>this.caseList[4].total){//加载的页数大于总页数时，停止加载数据
+							this.caseList[4].isLoading=true
+							this.caseList[4].loadingText='没有更多数据'
+							return 
+						}
+					break;
+					case 5:
+						if(this.caseList[5].page>this.caseList[5].total){//加载的页数大于总页数时，停止加载数据
+							this.caseList[5].isLoading=true
+							this.caseList[5].loadingText='没有更多数据'
+							return 
+						}
+					break;//已完成病例
+					default://全部病例
+						if(this.caseList[0].page>this.caseList[0].total){//加载的页数大于总页数时，停止加载数据
+							this.caseList[0].isLoading=true
+							this.caseList[0].loadingText='没有更多数据'
+							return 
+						}
+					break;
+				}
+				this.mark=1
+				console.log(this.tabIndex)
+				this.getIndexData(this.mark,this.tabIndex,'','')
+			},
+			refreshData(tab){
+				this.caseList[this.tabIndex].page=1
+				this.getIndexData(0,this.tabIndex,'','')
+				setTimeout(() => {
+				   this.pulling = true;
+				   tab.refreshing = false;
+				   tab.refreshFlag = false;
+				   tab.refreshText = "已刷新";
+				   setTimeout(() => { // TODO fix ios和Android 动画时间相反问题
+					   this.pulling = false;
+				   }, 500);
+				}, 2000);
+			},
+			 // 被下拉完成时触发
+			onrefresh(e) {
+			    var tab = this.caseList[this.tabIndex];
+			    if (!tab.refreshFlag) {
+			        return;
+			    }
+			    tab.refreshing = true;
+			    tab.refreshText = "正在刷新...";
+				this.refreshData(tab);
+			},
+			// 被下拉时触发
+			onpullingdown(e) {
+			    var tab = this.caseList[this.tabIndex];
+			    if (tab.refreshing || this.pulling) {
+			        return;
+			    }
+			    if (Math.abs(e.pullingDistance) > Math.abs(e.viewHeight)) {
+			        tab.refreshFlag = true;
+			        tab.refreshText = "释放立即刷新";
+			    } else {
+			        tab.refreshFlag = false;
+			        tab.refreshText = "下拉可以刷新";
+			    }
+			},
+		},
+		onTabItemTap(e) { // tab 点击时执行，此处直接接收单击事件
+			console.log(e) 
+		},
+		onShow() {
+			// 病例审核无意义（1. 注册者，没数据，审什么？2. 已通过的，再修改信息，还是通过，审什么？）
+			if(checkLogin('/pages/Tabbar/case',1)){//token 存在
+				if(this.DataStatus||this.caseList[this.tabIndex].data.length==0){//数据更新
+					// 第一个参数:mark,two:menu的下标，three:status(病例状态)，
+					// four:identify(医生的身份，分为主治与协助);five为起始时间，six为截止时间	
+					this.caseList[this.tabIndex].page=1
+					// 获取病例数据
+					this.getIndexData(0,this.tabIndex,'','')//根据当前页面的index，去加载数据
+				}
+			}else{
+				if(this.caseList.length!=0){
+					this.caseList=[]
+				}
+			}
+		},
+		onLoad() {
+			// #ifdef APP-NVUE
+			const dom = weex.requireModule('dom');
+			dom.addRule('fontFace', {
+			    'fontFamily': 'myIconfont',
+				 'src': "url('/common/font/iconfont.ttf')"
+			});
+			// #endif
+			// #ifdef MP-WEIXIN
+			this.menuButtonInfo = uni.getMenuButtonBoundingClientRect()
+			// console.log(this.menuButtonInfo)
+			// #endif
+			let _this = this;  
+			uni.getSystemInfo({  //获取状态栏高度
+				success: function(res) {  
+					_this.statusBarHeight = res.statusBarHeight  
+				}  
+			});
+			this.tabBars.forEach(item=>{//初始化数据
+				this.caseList.push({
+					 data: [],
+					 refreshText: "",
+					 isLoading: false,
+					 loadingText: '加载更多...',
+					 page:1,//页码
+					 total:1//总页数默认为1，后端没有数据返回的是0
+				})
+			})
+		},
+	}
+</script>
+
+<style scoped>
+	.sy_main{
+		background-color: #1B1C1E!important;
+	}
+	.sy_block{
+		background-color: #3A3A3A!important;
+		color:#8f8f8f!important;
+	}
+	.sy_title_primary{
+		color: #8f8f8f;
+	}
+	.tabs {
+	    flex: 1;
+	    flex-direction: column;
+	    overflow: hidden;
+	    background-color: #F8F8F8;
+	    /* #ifdef MP-ALIPAY || MP-BAIDU */
+	    height: 100vh;
+	    /* #endif */
+		/* #ifdef MP-WEIXIN */
+		height: 100vh;
+		/* #endif */
+	}
+	/* #ifdef APP-NVUE */
+	.my-iconfont {
+		font-family: myIconfont;
+	}
+	/* #endif */
+	/* #ifndef APP-PLUS */
+	page {
+	    width: 100%;
+	    min-height: 100%;
+	    display: flex;
+	}
+	/* #endif */
+	.header {  
+	   /* #ifndef MP-WEIXIN */
+		width: 750rpx;
+	   /* #endif */
+	   /* margin-bottom: 20rpx; */ 
+	}  
+	.info {  
+		/* #ifndef MP-WEIXIN */
+		width: 750rpx; 
+		/* #endif */
+	    height: 44px;  
+		padding: 0 30rpx;
+		flex-direction: row;
+	    justify-content: space-between;  
+	    align-items: center;  
+		background-color: #FFFFFF;
+		display: flex;
+		align-items: center;
+	} 
+	.search_bar{
+		padding: 0;
+		flex: 1;
+	}
+	/* #ifndef APP-NVUE */
+	.search_bar ::v-deep .uni-searchbar__box{
+		height:64rpx!important;
+		padding-top: 0;
+		padding-bottom: 0;
+		justify-content: flex-start;
+	}
+	.search_bar ::v-deep .uni-searchbar__text-placeholder{
+		color: #666666;
+	}
+	.search_bar ::v-deep .uniui-search{
+		color: #666666!important;
+	}
+	/* #endif */
+	
+	.scroll-h{
+		width: 750rpx;
+		padding:  0 20rpx;
+		height: 80rpx;
+		flex-direction: row;
+		/* #ifndef APP-PLUS */
+		white-space: nowrap;
+		/* #endif */
+		background-color: #FFFFFF;
+	}
+	.uni-tab-item {
+	    /* #ifndef APP-PLUS */
+	    display: inline-block;
+	    /* #endif */
+	    flex-wrap: nowrap;
+	    padding-left: 28rpx;
+	    padding-right: 28rpx;
+	}
+	.uni-tab-item-title {
+	    color: #555;
+	    font-size: 24rpx;
+	    height: 80rpx;
+	    line-height: 80rpx;
+	    flex-wrap: nowrap;
+	    /* #ifndef APP-PLUS */
+	    white-space: nowrap;
+	    /* #endif */
+	}
+	.uni-tab-item-title-active {
+	    color: #86B0D4;
+	}
+	.line-h {
+	    height: 1rpx;
+	    background-color: #cccccc;
+	}
+	.dateAll{
+		padding: 0 30rpx;
+	}
+	.date{
+		flex-direction: row;
+		align-items: center;
+		height: 80rpx;
+		line-height: 80rpx;
+		background-color: #FFFFFF;
+		margin: 20rpx 0;
+		padding: 0 20rpx;
+		border-radius: 10rpx;
+	}
+	.time{
+		flex: 1;flex-direction: row;justify-content: space-around;
+	}
+	.start{
+		overflow: hidden;
+		text-overflow: ellipsis;
+		flex-wrap: nowrap;
+	}
+	.datetext{
+		color: #8F8F8F;
+		font-size: 26rpx;
+	}
+	.swiper-box {
+	    flex: 1;
+	}
+	.swiper-item {
+	    flex: 1;
+	    flex-direction: row;
+	}
+	.scroll-v {
+	    flex: 1;
+	    /* #ifndef MP-ALIPAY */
+	    flex-direction: column;
+	    /* #endif */
+	    width: 750rpx;
+	}
+	.loading-more {
+	    align-items: center;
+	    justify-content: center;
+	    padding-top: 10px;
+	    padding-bottom: 10px;
+	    text-align: center;
+	}
+	.loading-more-text {
+	    font-size: 28rpx;
+	    color: #999;
+	}
+	.refresh {
+	    width: 750rpx;
+	    height: 64px;
+	    justify-content: center;
+	}
+	.refresh-view {
+	    flex-direction: row;
+	    flex-wrap: nowrap;
+	    align-items: center;
+	    justify-content: center;
+	}
+	.refresh-icon {
+		width: 30px;
+		height: 30px;
+		transition-duration: .5s;
+		transition-property: transform;
+		transform: rotate(0deg);
+		transform-origin: 15px 15px;
+	}
+	.refresh-icon-active {
+		transform: rotate(180deg);
+	}
+	.loading-icon {
+		width: 20px;
+		height: 20px;
+		margin-right: 5px;
+		color: #999999;
+	}
+	.loading-text {
+	    margin-left: 2px;
+	    font-size: 26rpx;
+	    color: #999999;
+	}
+	
+</style>

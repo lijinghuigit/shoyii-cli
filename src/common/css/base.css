@@ -1,0 +1,65 @@
+/* #ifndef APP-NVUE */
+page{
+    font-family: 'PingFang-SC-Regular';
+}
+/* #endif */
+image{
+	will-change: transform;
+	border: none;
+    display: block;
+}
+.header{
+	height: 80rpx;
+}
+.ad-view {
+	background-color: #FFFFFF;
+	margin-bottom: 10px;
+}
+.hover-bgColor{
+	background-color: #EEEEEE;
+}
+.animation-text{
+	animation-name:selecttips;
+	animation-duration: 1s;
+}
+@keyframes selecttips {
+	10% {
+		transform: translateY(2px);
+	}
+	20% {
+		transform: translateY(-2px);
+	}
+	30% {
+		transform: translateY(2px);
+	}
+	40% {
+		transform: translateY(-2px);
+	}
+	50% {
+		transform: translateY(2px);
+	}
+	60% {
+		transform: translateY(-2px);
+	}
+	70% {
+		transform: translateY(2px);
+	}
+	80% {
+		transform: translateY(-2px);
+	}
+	90% {
+		transform: translateY(2px);
+	}
+	100% {
+		transform: translateY(0);
+	}
+}
+.empty{
+	 position:fixed;
+	 top:0;
+	 right:0;
+	 bottom:0;
+	 left:0;
+	 margin:auto;
+}
+

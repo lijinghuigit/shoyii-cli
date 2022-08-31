@@ -1,0 +1,107 @@
+<template>
+	<view class="newsList" @click="enterNews(data.newsId)">
+		<image v-if="data.pictureUrl" :lazy-load='true' style="width: 40%;height: 168rpx;" :src="data.pictureUrl?data.pictureUrl:'/static/image/shoyiilogo.png'" mode="aspectFit"></image>
+		<image lazy-load class="image" v-else :src="defaultImg" mode=""></image>
+		<view class="news_content_item">
+			<view class="texttile">
+				<text>{{data.title||'无标题'}}</text>
+			</view>
+			<text class="textcontent">{{data.synopsis}}</text>
+		</view>
+	</view>
+</template>
+
+<script>
+	import {reactive,toRefs} from 'vue'
+	export default{
+		props:{
+			data:{
+				type:Object,
+				default:()=>{
+					return{}
+				},
+			}
+		},
+		setup(props){
+			let state=reactive({
+				defaultImg:uni.getStorageSync('uploadLogo'),
+			})
+			const {data}=toRefs(props)
+			const enterNews=(id)=>{
+				if(data.value.caseLink){//跳到文章链接
+					// #ifdef APP-PLUS||MP-WEIXIN
+					uni.navigateTo({
+						url:'/pages/ThreejsShow/ThreejsShow?baseUrl='+encodeURIComponent(data.value.caseLink),
+						animationType:'pop-in'
+					})
+					// #endif
+					// #ifdef H5
+					location.href=data.value.caseLink
+					// #endif
+				}else{
+					uni.navigateTo({
+						url:'/pages/news/newsDetail?id='+id,
+						animationType:'pop-in'
+					})
+				}
+			}
+			return {
+				...toRefs(state),
+				enterNews
+			}
+		}
+	}
+</script>
+
+<style scoped>
+	/* #ifndef APP-NVUE */
+	.newsList{
+		padding: 20rpx 30rpx;
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+		justify-content: space-between;
+		margin-top: 32rpx;
+		background-color: #FFFFFF;
+	}
+	.newsList .image{
+		width: 40%;
+		height: 168rpx;
+		border-radius: 20rpx;
+	}
+	.news_content_item{
+		width: 60%;
+		padding-left: 28rpx;
+		color: #000000;
+		box-sizing: border-box;
+	}
+	.news_content_item .texttile{
+		font-size: 30rpx;
+		font-weight: 600;
+		margin-bottom: 12.5rpx;
+		font-family: PingFang-SC-Bold;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp:1;
+		white-space: nowrap; 
+	}
+	.news_content_item .textcontent{
+		font-size: 24rpx;
+		font-family: PingFang-SC-Bold;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3;
+		overflow: hidden;
+	}
+	/* #endif */
+	
+	/* #ifdef MP-WEIXIN */
+	.newsList image{
+		width: 126px!important;
+		height: 168rpx;
+		border-radius: 20rpx;
+	}
+	/* #endif */
+	
+</style>

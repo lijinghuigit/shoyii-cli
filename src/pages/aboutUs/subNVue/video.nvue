@@ -1,0 +1,18 @@
+<template>
+	<div>
+		<!-- <video v-for="(s_item,s_index) in item.videoModelIds.split(',')" :key="s_item"
+		:src="item.previewMap[s_item].fileDownloadUrl" show-mute-btn="true" controls poster='' 
+		muted="true" danmu-btn="true" enable-danmu="true" page-gesture="true">
+		</video> -->
+	</div>
+</template>
+
+<script>
+	export default {
+		
+	}
+</script>
+
+<style>
+
+</style>
